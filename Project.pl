@@ -122,7 +122,7 @@ start_it([x, Board, start_it], x):-
 	write('Pick your next move'), nl,
 	read(Move),nl,
 	(
-	xmove(Board, Move, NewBoard),
+	place_move(Move, x, Board, NewBoard),
 	drawBoard(NewBoard),
 		(
 			win(NewBoard, x), !, write('You are a winner')
@@ -149,27 +149,12 @@ start_it([o, Board, start_it], o):-
 
 
 %------------- Moves for x and o's-----------------------%
-% x moves
-xmove([a,B,C,D,E,F,G,H,I],1,[x,B,C,D,E,F,G,H,I]).
-xmove([A,a,C,D,E,F,G,H,I],2,[A,x,C,D,E,F,G,H,I]).
-xmove([A,B,a,D,E,F,G,H,I],3,[A,B,x,D,E,F,G,H,I]).
-xmove([A,B,C,a,E,F,G,H,I],4,[A,B,C,x,E,F,G,H,I]).
-xmove([A,B,C,D,a,F,G,H,I],5,[A,B,C,D,x,F,G,H,I]).
-xmove([A,B,C,D,E,a,G,H,I],6,[A,B,C,D,E,x,G,H,I]).
-xmove([A,B,C,D,E,F,a,H,I],7,[A,B,C,D,E,F,x,H,I]).
-xmove([A,B,C,D,E,F,G,a,I],8,[A,B,C,D,E,F,G,x,I]).
-xmove([A,B,C,D,E,F,G,H,a],9,[A,B,C,D,E,F,G,H,x]).
+place_move(1, Player_Token, [X|Ls], [Player_Token|Ls]) :- !, X = 0.
 
-% o moves
-omove([a,B,C,D,E,F,G,H,I],1,[o,B,C,D,E,F,G,H,I]).
-omove([A,a,C,D,E,F,G,H,I],2,[A,o,C,D,E,F,G,H,I]).
-omove([A,B,a,D,E,F,G,H,I],3,[A,B,o,D,E,F,G,H,I]).
-omove([A,B,C,a,E,F,G,H,I],4,[A,B,C,o,E,F,G,H,I]).
-omove([A,B,C,D,a,F,G,H,I],5,[A,B,C,D,o,F,G,H,I]).
-omove([A,B,C,D,E,a,G,H,I],6,[A,B,C,D,E,o,G,H,I]).
-omove([A,B,C,D,E,F,a,H,I],7,[A,B,C,D,E,F,o,H,I]).
-omove([A,B,C,D,E,F,G,a,I],8,[A,B,C,D,E,F,G,o,I]).
-omove([A,B,C,D,E,F,G,H,a],9,[A,B,C,D,E,F,G,H,o]).
+place_move(Position, Player_Token, [X|Ls], [X|L2s]) :-
+    number(Position),
+    Position1 is Position - 1,
+    set1(Position1, Player_Token, Ls, L2s).
 
 
 %--------------Winning functions-----------------------%
