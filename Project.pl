@@ -54,24 +54,24 @@ utility([_,tie,_], 0).
 tieGame(_,Board):-
 	\+ member(0, Board).
 
-move([X1, start_it, Board], [X2, win, NextBoard]) :-
-    nextPlayer(X1, X2),
-    move_aux(X1, Board, NextBoard),
-    win(NextBoard, X1), !.
+move([P1, start_it, Board], [P2, win, NextBoard]) :-
+    nextPlayer(P1, P2),
+    move_helper(P1, Board, NextBoard),
+    win(NextBoard, P1), !.
 
-move([X1, start_it, Board], [X2, tie, NextBoard]) :-
-    nextPlayer(X1, X2),
-    move_aux(X1, Board, NextBoard),
-    tieGame(X1,NextBoard), !.
+move([P1, start_it, Board], [P2, tie, NextBoard]) :-
+    nextPlayer(P1, P2),
+    move_helper(P1, Board, NextBoard),
+    tieGame(P1,NextBoard), !.
 
-move([X1, start_it, Board], [X2, start_it, NextBoard]) :-
-    nextPlayer(X1, X2),
-    move_aux(X1, Board, NextBoard).
+move([P1, start_it, Board], [P2, start_it, NextBoard]) :-
+    nextPlayer(P1, P2),
+    move_helper(P1, Board, NextBoard).
 
-move_aux(P, [0|Bs], [P|Bs]).
+move_helper(P, [0|T1], [P|T1]).
 
-move_aux(P, [B|Bs], [B|B2s]) :-
-    move_aux(P, Bs, B2s).
+move_helper(P, [H1|T1], [H1|T2]) :-
+    move_helper(P, T1, T2).
 
 % determine next player
 nextPlayer(o, x).
