@@ -1,19 +1,4 @@
-% Example Query ?- browse(user).
-browse(File):-
-	seeing(Old),
-	see(File),
-	repeat,
-	read(Data),
-	process(Data),
-	seen,
-	see(Old).
-
-process(end_of_file):- !.
-
-process(Data):-
-	write(Data),
-	nl,
-	fail.
+% Utilized minimax referenced in slides, 
 
 %------------------Minimax implementation-------------------------------%
 % see class notes -> we need to implement utility, move, min_to_move, max_to_move
