@@ -61,22 +61,22 @@ move_helper(P, [H1|T1], [H1|T2]) :-
 % determine next player
 nextPlayer(o, x).
 nextPlayer(x, o).
+
 %------Draws the current state of the board with the list parameter-----%
 drawBoard([A,B,C,D,E,F,G,H,I]):-
-
-	nl, write('+---+---+---+'), nl,
-	write('| '), drawMove(A),
+	nl, write('\t+---+---+---+'), nl,
+	write('\t| '), drawMove(A),
 	write('| '), drawMove(B),
 	write('| '), drawMove(C), write('|'), nl,
-	write('+---+---+---+'), nl,
-	write('| '), drawMove(D),
+	write('\t+---+---+---+'), nl,
+	write('\t| '), drawMove(D),
 	write('| '), drawMove(E),
 	write('| '), drawMove(F), write('|'), nl,
-	write('+---+---+---+'), nl,
-	write('| '), drawMove(G),
+	write('\t+---+---+---+'), nl,
+	write('\t| '), drawMove(G),
 	write('| '), drawMove(H),
 	write('| '), drawMove(I), write('|'), nl,
-	write('+---+---+---+'), nl, nl.
+	write('\t+---+---+---+'), nl, nl.
 
 % If the Pos is 0, no move, print empty space
 % The ! prevents the program from printing the move when its not supposed to
@@ -90,13 +90,14 @@ drawMove(Pos):-
 	write(' ').
 
 %----------------------Start the game------------------------------------------------%
-% Start game type "playgame"
-playgame :- rules, start_it([x, B, start_it], x).
+% Start game type "playgame."
+playgame:- rules, start_it([x, B, start_it], x).
+
 rules :-
-	write('To play this game enter the integer associated'),nl,
-	write('with the place you would like to occupy by typing'),nl,
-	write('the integer associated with your desired move'),nl,
-	write('location followed by a period. (Your are x\'s computer is o\'s)'),nl,
+	nl, write('Welcome to Tic-Tac-Toe!'),nl,nl,
+	write('You (the human) will be \'x\''),nl,
+	write('The computer will be \'o\''),nl,nl,
+	write('To place your move, type the number location followed by a period'),nl,
 	drawBoard([1,2,3,4,5,6,7,8,9]).
 
 %----------------Handle start of game and player turns, also checks for win ---------%
@@ -104,30 +105,30 @@ rules :-
 bestMove(P, NP):- minimax(P, NP, _).
 
 start_it([x, Board, start_it], x):-
-	write('Pick your next move'), nl,
-	read(Move),nl,
+	write('Your move:'), nl,
+	read(Move),
 	(
 	place_move(Move, x, Board, NewBoard),
 	drawBoard(NewBoard),
 		(
-			win(NewBoard, x), !, write('You are a winner')
+			win(NewBoard, x), !, write('You Win!')
 			;
-			tieGame(_,NewBoard), !, write('Tie game')
+			tieGame(_,NewBoard), !, write('Tie Game!')
 			;
 			start_it([o, NewBoard, start_it], o)
 		);
-		write('-> Bad Move !'), nl,
+		write('-> Invalid move!'),nl,nl,
     start_it([x, Board, start_it], x)
 	).
 
 start_it([o, Board, start_it], o):-
-	write('Computers turn!'), nl,
+	write('Computer move:'), nl,
 	bestMove([o, start_it, Board], [x, State, NewBoard]),
 	drawBoard(NewBoard),
 	(
-		win(NewBoard, o), !, write('Computer is the winner'), nl
+		win(NewBoard, o), !, write('Computer Wins!'), nl
 		;
-		tieGame(_,NewBoard), !, write('Tie game'), nl
+		tieGame(_,NewBoard), !, write('Tie Game!'), nl
 		;
 		start_it([x, NewBoard, start_it], x)
 	).
