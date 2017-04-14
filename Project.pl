@@ -1,4 +1,4 @@
-% Utilized minimax referenced in slides, 
+% Utilized minimax referenced in slides,
 
 %------------------Minimax implementation-------------------------------%
 % see class notes -> we need to implement utility, move, min_to_move, max_to_move
@@ -139,8 +139,7 @@ place_move(1, Player_Token, [X|Ls], [Player_Token|Ls]) :- !, X = 0.
 place_move(Position, Player_Token, [X|Ls], [X|L2s]) :-
     number(Position),
     Position1 is Position - 1,
-    set1(Position1, Player_Token, Ls, L2s).
-
+    place_move(Position1, Player_Token, Ls, L2s).
 
 %--------------Winning functions-----------------------%
 win(Matrix, Player):- wColumn(Matrix, Player).
