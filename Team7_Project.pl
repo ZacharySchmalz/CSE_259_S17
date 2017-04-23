@@ -91,7 +91,7 @@ drawMove(Pos):-
 
 %----------------------Start the game------------------------------------------------%
 % Start game type "playgame."
-playgame:- rules, start_it([x, B, start_it], x).
+start:- rules, start_it([x, B, start_it], x).
 
 rules :-
 	nl, write('Welcome to Tic-Tac-Toe!'),nl,nl,
