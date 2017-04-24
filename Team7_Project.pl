@@ -125,13 +125,8 @@ start_it([x, Board, start_it], x):-
 
 % computer code
 start_it([o, Board, start_it], o):-
-<<<<<<< Updated upstream:Team7_Project.pl
 	write('Computer move:'), nl,
-	bestMove([o, start_it, Board], [x, State, NewBoard]),
-=======
-	write('Computers turn!'), nl,
 	bestMove([o, start_it, Board], [x, State, NewBoard]), % find best move using minimax
->>>>>>> Stashed changes:Project.pl
 	drawBoard(NewBoard),
 	(
 		win(NewBoard, o), !, write('Computer Wins!'), nl
