@@ -31,8 +31,8 @@ betterOf(_, _, Pos1, Val1, Pos1, Val1).        % Otherwise Pos1 better than Pos0
 min_to_move([o,_,_]).
 max_to_move([x,_,_]).
 
-utility([o,win,_], 10).
-utility([x,win,_], -10).
+utility([o,win,_], 1). % Computer is min and Human is max.
+utility([x,win,_], -1).
 utility([_,tie,_], 0).
 
 % predicate for a draw/tie, the member function checks to see if there are any empty spaces, if not its a draw/tie
@@ -42,17 +42,18 @@ tieGame(_,Board):-
 move([P1, start_it, Board], [P2, win, NextBoard]) :-
     nextPlayer(P1, P2),
     move_helper(P1, Board, NextBoard),
-    win(NextBoard, P1), !.
+    win(NextBoard, P1), !. % check board state for winning state, if win cut.
 
 move([P1, start_it, Board], [P2, tie, NextBoard]) :-
     nextPlayer(P1, P2),
     move_helper(P1, Board, NextBoard),
-    tieGame(P1,NextBoard), !.
+    tieGame(P1,NextBoard), !. % check board state for tie game, if tie, cut.
 
 move([P1, start_it, Board], [P2, start_it, NextBoard]) :-
     nextPlayer(P1, P2),
-    move_helper(P1, Board, NextBoard).
+    move_helper(P1, Board, NextBoard). % if no win or tie, continue game.
 
+% iterate through possible moves to see what moves are open and which are not, then "returns" the new board.
 move_helper(P, [0|T1], [P|T1]).
 
 move_helper(P, [H1|T1], [H1|T2]) :-
@@ -104,6 +105,7 @@ rules :-
 % B: Board, Player: x or o (check for win before allowing next move), AfterCompBoard: Board after Computer plays their move
 bestMove(P, NP):- minimax(P, NP, _).
 
+% human code
 start_it([x, Board, start_it], x):-
 	write('Your move:'), nl,
 	read(Move),
@@ -121,9 +123,15 @@ start_it([x, Board, start_it], x):-
     start_it([x, Board, start_it], x)
 	).
 
+% computer code
 start_it([o, Board, start_it], o):-
+<<<<<<< Updated upstream:Team7_Project.pl
 	write('Computer move:'), nl,
 	bestMove([o, start_it, Board], [x, State, NewBoard]),
+=======
+	write('Computers turn!'), nl,
+	bestMove([o, start_it, Board], [x, State, NewBoard]), % find best move using minimax
+>>>>>>> Stashed changes:Project.pl
 	drawBoard(NewBoard),
 	(
 		win(NewBoard, o), !, write('Computer Wins!'), nl
@@ -135,6 +143,7 @@ start_it([o, Board, start_it], o):-
 
 
 %------------- Moves for x and o's-----------------------%
+% iterate through until position matches the move sent then place move onto board
 place_move(1, Player_Token, [X|Ls], [Player_Token|Ls]) :- !, X = 0.
 
 place_move(Position, Player_Token, [X|Ls], [X|L2s]) :-
