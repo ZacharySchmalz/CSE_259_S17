@@ -91,7 +91,7 @@ drawMove(Pos):-
 	write(' ').
 
 %----------------------Start the game------------------------------------------------%
-% Start game type "playgame."
+% Start game type "start."
 start:- rules, start_it([x, B, start_it], x).
 
 rules :-
